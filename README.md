@@ -31,7 +31,3 @@ conda.setenv('env_name')
 ```
 
 It's that simple. Enjoy. 
-
-## License
-
-GPL v3
