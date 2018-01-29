@@ -44,7 +44,7 @@ methods (Static)
 			env_names{i} = this_env{1};
 			env_paths{i} = this_env{2};
 
-			for j = 1:length(p)
+			for j = 1:length(env_paths)
 				this_env_path = [env_paths{j} '/bin'];
 				if any(strcmp(this_env_path,p))
 					active_path = j;
@@ -70,12 +70,7 @@ methods (Static)
 				end
 			end
 		end
-
-
-		% figure out which of these is first on the
-		
-
-	end
+	end % end getenv
 
 	function setenv(env)
 		conda.addBaseCondaPath;
@@ -107,7 +102,7 @@ methods (Static)
 		p = strjoin(p,pathsep);
 		setenv('PATH', p);
 
-	end
+	end % setenv
 
 	% this function makes sure that MATLAB knows about
 	% the base Anaconda install, 
@@ -124,6 +119,7 @@ methods (Static)
 		    p = [a3_path pathsep p];
 		    setenv('PATH', p);
 		else
+			% it's all good, stop
 			return
 		end
 
