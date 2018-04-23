@@ -111,31 +111,34 @@ methods (Static)
 		p = getenv('PATH');
 		[~,home_path] = system('cd ~; pwd');
 		% one of these should work
-		a_path = strrep('~/anaconda/bin','~',strtrim(home_path));
-		a3_path = strrep('~/anaconda3/bin','~',strtrim(home_path));
+		all_paths = {};
+		all_paths{1} = strrep('~/anaconda/bin','~',strtrim(home_path));
+		all_paths{2} = strrep('~/anaconda3/bin','~',strtrim(home_path));
+		all_paths{3} = '/anaconda/bin';
+		all_paths{4} = '/anaconda3/bin';
+
+		ok = false;
+		for i = 1:length(all_paths)
+			if exist(all_paths{i})
+				ok = true;
+				break
+			end
+		end
+
+		if ~ok
+			error('Could not find any anaconda folder.')
+		end
+
+
 		if isempty(strfind(p,'anaconda'))
 			% no anaconda at all on path
-		    p = [a_path pathsep p];
-		    p = [a3_path pathsep p];
+		    p = [all_paths{i} pathsep p];
 		    setenv('PATH', p);
 		else
 			% it's all good, stop
 			return
 		end
 
-		% now figure out where conda resolves to, and delete the other path
-		[e,o] = system('which conda');
-		assert(~logical(e), 'Could not locate conda')
-		p = strsplit(getenv('PATH'),pathsep);
-		if any(strfind(o,'anaconda3'))
-			% remove a_path
-			p(strcmp(p,a_path)) = [];
-		else
-			% remove a3_path
-			p(strcmp(p,a3_path)) = [];
-		end 
-		p = strjoin(p,pathsep);
-		setenv('PATH', p);
 	end
 	
 
