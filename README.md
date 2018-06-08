@@ -11,7 +11,7 @@ Grab this repo. Chuck it somewhere on your path
 To view all your conda environments (i.e., the equivalent of `conda env list`)
 
 ```matlab
-conda.genenv
+conda.getenv
 
 % You'll see something like this:
 asimov     /Users/sg-s/anaconda3/envs/asimov
