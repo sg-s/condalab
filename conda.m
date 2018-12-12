@@ -23,6 +23,45 @@ end
 
 methods (Static)
 
+
+
+	function init()
+
+		try
+			getpref('condalab','base_path');
+		catch
+			str = input('Enter the path to your conda installation:  \n','s');
+			str = strrep(str,[filesep 'conda'],'');
+			setpref('condalab','base_path',str)
+		end
+
+		conda.addBaseCondaPath()
+
+	end
+
+
+	function addBaseCondaPath()
+
+		try
+			condalab_base_path = getpref('condalab','base_path');
+		catch
+			conda.init()
+			condalab_base_path = getpref('condalab','base_path');
+		end
+
+		P = strsplit(getenv('PATH'),pathsep);
+		add_to_path = true;
+		for i = 1:length(P)
+			if strcmp(P{i},condalab_base_path)
+				add_to_path = false;
+			end
+		end
+		if add_to_path
+			setenv('PATH',[condalab_base_path pathsep getenv('PATH') ]);
+		end
+
+	end
+
 	function varargout = getenv()
 		conda.addBaseCondaPath;
 		[~,envs] = system(['conda env list']);
@@ -104,43 +143,8 @@ methods (Static)
 
 	end % setenv
 
-	% this function makes sure that MATLAB knows about
-	% the base Anaconda install, 
-	% and that "conda" can be found on the path
-	function addBaseCondaPath
-		p = getenv('PATH');
-		[~,home_path] = system('cd ~; pwd');
-		% one of these should work
-		all_paths = {};
-		all_paths{1} = strrep('~/anaconda/bin','~',strtrim(home_path));
-		all_paths{2} = strrep('~/anaconda3/bin','~',strtrim(home_path));
-		all_paths{3} = '/anaconda/bin';
-		all_paths{4} = '/anaconda3/bin';
-
-		ok = false;
-		for i = 1:length(all_paths)
-			if exist(all_paths{i})
-				ok = true;
-				break
-			end
-		end
-
-		if ~ok
-			error('Could not find any anaconda folder.')
-		end
 
 
-		if isempty(strfind(p,'anaconda'))
-			% no anaconda at all on path
-		    p = [all_paths{i} pathsep p];
-		    setenv('PATH', p);
-		else
-			% it's all good, stop
-			return
-		end
-
-	end
-	
 
 end
 
