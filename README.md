@@ -5,16 +5,8 @@ Handy MATLAB utility to switch between conda environments **from within MATLAB**
 ## Installation
 
 1. Grab this repo. Chuck it somewhere on your path.
-2. Determine where your base `conda` installation by opening a terminal and typing `which conda`. Make a note of that path
-3. Add this to your `MATLAB` startup file: 
-
-```MATLAB
-path1 = getenv('PATH');
-if isempty(strfind(path1,':/path/to/conda'))
-    path1 = [path1 ':path/to/conda'];
-end
-setenv('PATH', path1);
-```
+2. Determine where your base `conda` installation by opening a terminal and typing `which conda`. Make a note of that path. 
+3. Type `conda.init` in your MATLAB terminal. It should prompt you for the path you got in step 2. 
 
 
 ## Usage
