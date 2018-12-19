@@ -83,6 +83,8 @@ methods (Static)
 			env_names{i} = this_env{1};
 			env_paths{i} = this_env{2};
 
+
+			active_path = 0;
 			for j = 1:length(env_paths)
 				this_env_path = [env_paths{j} filesep 'bin'];
 				if any(strcmp(this_env_path,p))
