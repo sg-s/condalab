@@ -84,7 +84,7 @@ methods (Static)
 			env_paths{i} = this_env{2};
 
 			for j = 1:length(env_paths)
-				this_env_path = [env_paths{j} '/bin'];
+				this_env_path = [env_paths{j} filesep 'bin'];
 				if any(strcmp(this_env_path,p))
 					active_path = j;
 				end
@@ -128,7 +128,7 @@ methods (Static)
 		rm_this = false(length(p),1);
 		for i = 1:length(p)
 			% remove "bin" from the end
-			this_path = strtrim(strrep(p{i}, '/bin',''));
+			this_path = strtrim(strrep(p{i}, filesep 'bin',''));
 			if any(strcmp(this_path,env_paths))
 				rm_this(i) = true;
 			end
@@ -136,7 +136,7 @@ methods (Static)
 		p(rm_this) = [];
 
 		% add the path of the env we want to switch to
-		this_env_path = [env_paths{strcmp(env_names,env)} '/bin'];
+		this_env_path = [env_paths{strcmp(env_names,env)} filesep 'bin'];
 		p = [this_env_path p];
 		p = strjoin(p,pathsep);
 		setenv('PATH', p);
