@@ -49,6 +49,12 @@ methods (Static)
 			condalab_base_path = getpref('condalab','base_path');
 		end
 
+		[e,o]=system('which conda');
+		if e == 0
+			% conda is somewhere on the path, so do nothing
+			return
+		end
+
 		P = strsplit(getenv('PATH'),pathsep);
 		add_to_path = true;
 		for i = 1:length(P)
@@ -130,7 +136,7 @@ methods (Static)
 		rm_this = false(length(p),1);
 		for i = 1:length(p)
 			% remove "bin" from the end
-			this_path = strtrim(strrep(p{i}, filesep 'bin',''));
+			this_path = strtrim(strrep(p{i}, [filesep 'bin'],''));
 			if any(strcmp(this_path,env_paths))
 				rm_this(i) = true;
 			end
