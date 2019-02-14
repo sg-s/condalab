@@ -35,6 +35,8 @@ methods (Static)
 			setpref('condalab','base_path',str)
 		end
 
+
+
 		conda.addBaseCondaPath()
 
 	end
@@ -48,6 +50,8 @@ methods (Static)
 			conda.init()
 			condalab_base_path = getpref('condalab','base_path');
 		end
+
+
 
 		[e,o]=system('which conda');
 		if e == 0
@@ -66,11 +70,13 @@ methods (Static)
 			setenv('PATH',[condalab_base_path pathsep getenv('PATH') ]);
 		end
 
+
+
 	end
 
 	function varargout = getenv()
 		conda.addBaseCondaPath;
-		[~,envs] = system(['conda env list']);
+		[~,envs] = system('conda env list');
 		envs = strsplit(envs,'\n');
 
 		p = strsplit(getenv('PATH'),pathsep);
@@ -147,6 +153,11 @@ methods (Static)
 		this_env_path = [env_paths{strcmp(env_names,env)} filesep 'bin'];
 		p = [this_env_path p];
 		p = strjoin(p,pathsep);
+
+		% prepend the base path to this, because apparently
+		% conda decides to change everything every 2 months
+		p = [getpref('condalab','base_path') pathsep p];
+
 		setenv('PATH', p);
 
 	end % setenv
