@@ -154,15 +154,19 @@ methods (Static)
 		p = [this_env_path p];
 		p = strjoin(p,pathsep);
 
-		% prepend the base path to this, because apparently
+		% append the base path to this, because apparently
 		% conda decides to change everything every 2 months
-		p = [getpref('condalab','base_path') pathsep p];
+		p = [p pathsep getpref('condalab','base_path')];
 
 		setenv('PATH', p);
 
 	end % setenv
 
 
+	% asks the python interpreter where it is located
+	function test()
+		system(['python ' fileparts(which(mfilename)) filesep 'test.py']);
+	end
 
 
 end
