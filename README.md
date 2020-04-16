@@ -11,26 +11,39 @@ Handy MATLAB utility to switch between conda environments **from within MATLAB**
 
 ## Usage
 
-To view all your conda environments (i.e., the equivalent of `conda env list`)
+`condalab` works exactly like `conda`. 
 
-```matlab
-conda.getenv()
+So if you want to list the environments you have, you can use
 
-% You'll see something like this:
-asimov          /Users/sg-s/anaconda3/envs/asimov
-mctsne          /Users/sg-s/anaconda3/envs/mctsne
-*tensorflow     /Users/sg-s/anaconda3/envs/tensorflow
-root            /Users/sg-s/anaconda3
+
+```
+% yes, type this in your matlab prompt
+conda env list 
+
+base     /Users/srinivas/anaconda3
+*umap     /Users/srinivas/anaconda3/envs/umap
 
 ```
 
-and the `*` indicates the currently active environment
+and the `*` indicates the currently active environment. 
 
-To switch between environments (i.e., `source activate env`)
-
-```matlab
-conda.setenv('env_name')
+To switch environments, use 
 
 ```
+% yes, type this in your matlab prompt
+conda activate umap
+```
+
+To check that everything worked, you can run
+
+```
+conda.test
+
+The python executable I am using is located at:
+/Users/srinivas/anaconda3/envs/umap/bin/python
+```
+
+and you see that it is using the right environment. 
+
 
 It's that simple. Enjoy. 

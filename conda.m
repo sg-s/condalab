@@ -25,6 +25,27 @@ methods (Static)
 
 
 
+	function varargout = conda(varargin)
+
+		varargout = {};
+
+		if nargin == 2
+			if strcmp(varargin{1},'env') && strcmp(varargin{2},'list')
+				conda.getenv();
+				return
+			elseif strcmp(varargin{1},'activate')
+				conda.setenv(varargin{2})
+				return
+			else 
+				error('Unknown argument syntax')
+			end
+		else
+			error('Unknown argument syntax')
+		end
+
+	end
+
+
 	function init()
 
 		try
