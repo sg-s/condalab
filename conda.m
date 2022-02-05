@@ -170,8 +170,14 @@ methods (Static)
 		end
 		p(rm_this) = [];
 
-		% add the path of the env we want to switch to
-		this_env_path = [env_paths{strcmp(env_names,env)} filesep 'bin'];
+		% add the path of the env we want to switch to. On Windows the 
+		% executable lives in the main env directory, on *NIX in the bin 
+		% subfolder.
+		if ~ispc
+			this_env_path = [env_paths{strcmp(env_names,env)} filesep 'bin'];
+		else
+			this_env_path = env_paths{strcmp(env_names,env)};
+		end
 		p = [this_env_path p];
 		p = strjoin(p,pathsep);
 
