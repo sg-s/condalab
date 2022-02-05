@@ -1,13 +1,11 @@
 % conda.m
 % a simple MATLAB utility to control conda
-% environments on *nix systems
+% environments from within MATLAB
 % 
 % usage
 %
-% MATLAB 			   Shell
-% ===================================
-% conda.getenv         conda env list
-% conda.setenv(env)    source activate env
+% conda env list       
+% conda activate $ENV    
 % 
 % Srinivas Gorur-Shandilya 
 
@@ -29,6 +27,11 @@ methods (Static)
 
 		varargout = {};
 
+		if strcmp(varargin{1},'init')
+			conda.init()
+			return
+		end
+
 		if nargin == 2
 			if strcmp(varargin{1},'env') && strcmp(varargin{2},'list')
 				conda.getenv();
@@ -36,10 +39,12 @@ methods (Static)
 			elseif strcmp(varargin{1},'activate')
 				conda.setenv(varargin{2})
 				return
+
 			else 
 				error('Unknown argument syntax')
 			end
 		else
+			
 			error('Unknown argument syntax')
 		end
 
@@ -74,7 +79,7 @@ methods (Static)
 
 
 
-		[e,o]=system('which conda');
+		[e,~] = system('which conda');
 		if e == 0
 			% conda is somewhere on the path, so do nothing
 			return
@@ -138,9 +143,9 @@ methods (Static)
 					continue
 				end
 				if active_path == i
-					disp(['*' env_names{i} '     ' env_paths{i}])
+					disp([pad(['*' env_names{i}],15) '     ' env_paths{i}])
 				else
-					disp([env_names{i} '     ' env_paths{i}])
+					disp([pad(env_names{i},15) '     ' env_paths{i}])
 				end
 			end
 		end
