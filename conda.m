@@ -57,7 +57,11 @@ methods (Static)
 			getpref('condalab','base_path');
 		catch
 			str = input('Enter the path to your conda installation:  \n','s');
-			str = strrep(str,[filesep 'conda'],'');
+         if contains(str,['condabin' filesep 'conda'])
+            str = strrep(str,['condabin' filesep 'conda'],'condabin');
+         else
+			   str = strrep(str,[filesep 'conda'],'');
+         end
 			setpref('condalab','base_path',str)
 		end
 
